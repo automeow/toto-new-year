@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-bind:class="{ 'weather rain': newYear }">
     <header>
-      Africa - Toto New Year Count Down
+      Africa New Year Count Down
     </header>
     <section>
       <a-player
@@ -14,22 +14,18 @@
           url: 'static/africa.mp3',
           pic: 'static/africa.jpg'
         }"></a-player>
-      <template v-if="totoDone">
-        <h1 v-if="newYear">
-          Have a blessed new year!
-        </h1>
-        <template v-else>
-          <p>Blessing the rains in...</p>
-          <count-down
-            :deadline="newYearDate"
-            v-on:done="happyNewYear"></count-down>
-        </template>
-      </template>
+      <h1 v-if="newYear">
+        Have a blessed new year!
+      </h1>
       <template v-else>
-        <p>Africa - Toto will begin playing in...</p>
+        <p>Blessing the rains will commence in...</p>
         <count-down
+          :deadline="newYearDate"
+          v-on:done="happyNewYear"></count-down>
+        <count-down
+          v-show="false"
           :deadline="totoDate"
-          v-on:done="onTotoCountDown"></count-down>
+          v-on:done="play"></count-down>
       </template>
     </section>
   </div>
@@ -47,8 +43,8 @@ export default {
   },
   data () {
     return {
-      totoDone: false,
       totoDate: this.getTotoDate(),
+      newYearDate: this.getNewYearDate(),
       newYear: false
     }
   },
@@ -57,27 +53,23 @@ export default {
       return this.$refs.player.control
     }
   },
-  created () {
-    window.testRun = () => {
-      this.totoDate = new Date()
-    }
-  },
   methods: {
     getCurrentYear () {
       return (new Date()).getFullYear()
     },
     getTotoDate () {
-      return new Date(this.getCurrentYear(), 11, 31, 23, 58, 40)
-    },
-    getNewYearDate () {
-      const d = new Date()
-      d.setTime(d.getTime() + 81000)
+      const d = this.getNewYearDate()
+      d.setTime(d.getTime() - 80000)
       return d
     },
-    onTotoCountDown () {
-      this.totoDone = true
-      this.newYearDate = this.getNewYearDate()
-      this.play()
+    getNewYearDate () {
+      if (window.location.hash === '#test') {
+        const d = new Date()
+        d.setTime(d.getTime() + 90000)
+        return d
+      }
+
+      return new Date(this.getCurrentYear() + 1, 0, 1, 0, 0, 0)
     },
     play () {
       this.aplayer.play()
