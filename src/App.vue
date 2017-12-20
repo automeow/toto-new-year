@@ -94,10 +94,11 @@ body {
     text-align: center;
     color: #2c3e50;
     min-height: 100vh;
+    font-size: 2.4vw;
 
     header {
-      padding: 30px;
-      margin-bottom: 60px;
+      padding: 3vw;
+      margin-bottom: 6vw;
       background: #333;
       color: #ddd;
       font-size: 5vw;
